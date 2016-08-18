@@ -16,3 +16,4 @@ An experiment to see if Swift can help with writing physics lab reports. Still a
 - Measurements with uncertainties (preferably inferred based on significant digits)
 - Better Unit system
 - More algebraeic functionality
+- MathJax?
