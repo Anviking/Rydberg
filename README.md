@@ -11,7 +11,6 @@ An experiment to see if Swift can help with writing physics lab reports. Still a
 
 ### Todo
 - Better `LaTex` support
-- Command line tool?
 - Linear Regressions etc.
 - Measurements with uncertainties (preferably inferred based on significant digits)
 - Better Unit system
