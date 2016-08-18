@@ -4,7 +4,7 @@ public struct LatexRenderer {
     
     public init() {}
     
-    public func render(expression: Expression) -> String {
+    public func render(_ expression: Expression) -> String {
         switch expression {
         case .constant(let c):
             return "\(c)"
@@ -16,20 +16,26 @@ public struct LatexRenderer {
                 return v.identifier
             }
         case let .addition(a, b):
-            return render(expression: a) + " + " + render(expression: b)
+            return render(a) + " + " + render(b)
         case let .subtraction(a, b):
-            return render(expression: a) + " - " + render(expression: b)
+            return render(a) + " - " + render(b)
         case let .multiplication(a, b):
-            return render(expression: a) + " \\cdot " + render(expression: b)
+            return render(a) + " \\cdot " + render(b)
         case let .division(a, b):
-            return "\\frac{\(render(expression: a))}{\(render(expression: b))}"
+            return "\\frac{\(render(a))}{\(render(b))}"
         case let .power(base, exponent):
-            return "{" + render(expression: base) + "}^{" + render(expression: exponent) + "}"
+            return "{" + render(base) + "}^{" + render(exponent) + "}"
         default:
             fatalError()
         }
     }
     
+    public func render(_ equation: Equation) -> String {
+        return render(equation.lhs) + " = " + render(equation.rhs)
+    }
+
+    
+    /*
     /// Renders an expression and wraps it in an \begin{equation} ... \end{equation}
     public func render(equation: Expression, label: String?, ordered: Bool = true) -> String {
         let begin = ordered ? "\\begin{equation}" : "\\begin{equation*}"
@@ -39,4 +45,5 @@ public struct LatexRenderer {
             .flatMap { $0 }
             .joined(separator: "\n")
     }
+     */
 }

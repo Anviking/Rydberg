@@ -1,5 +1,9 @@
 import Foundation
 
+public func == (lhs: Expression, rhs: Expression) -> Equation {
+    return Equation(lhs: lhs, rhs: rhs)
+}
+
 public struct Equation: CustomStringConvertible {
     public var lhs: Expression
     public var rhs: Expression
@@ -10,64 +14,76 @@ public struct Equation: CustomStringConvertible {
     }
     
     public var description: String {
-        return "\(lhs) == \(rhs)"
+        return "\(lhs) = \(rhs)"
+    }
+    
+    public func solving(for variable: Variable) -> Equation {
+        var copy = self
+        copy.solve(for: variable)
+        return copy
     }
     
     public mutating func solve(for variable: Variable) {
-        if lhs.contains(variable) {
-            let (l, r) = (lhs, rhs)
-            (lhs, rhs) = (r, l)
+        if rhs.contains(variable) {
+            (lhs, rhs) = (rhs, lhs)
         }
-        switch rhs {
+        switch lhs {
         case .constant(_):
             fatalError()
         case .variable(_):
             return
         case .addition(let a, let b):
             if a.contains(variable) {
-                rhs = a
-                lhs = .subtraction(lhs, b)
+                lhs = a
+                rhs = .subtraction(rhs, b)
             }
             if b.contains(variable) {
-                rhs = b
-                lhs = .subtraction(lhs, a)
+                lhs = b
+                rhs = .subtraction(rhs, a)
             }
         case .subtraction(let a, let b):
             if a.contains(variable) {
-                rhs = a
-                lhs = .addition(lhs, b)
+                lhs = a
+                rhs = .addition(rhs, b)
             }
             if b.contains(variable) {
-                rhs = b
-                lhs = 0 - lhs - a
+                lhs = b
+                rhs = 0 - rhs - a
             }
         case .multiplication(let a, let b):
             if a.contains(variable) {
-                rhs = a
-                lhs = lhs / b
+                lhs = a
+                rhs = rhs / b
             }
             if b.contains(variable) {
-                rhs = b
-                lhs = lhs / a
+                lhs = b
+                rhs = rhs / a
             }
         case .division(let a, let b):
             if a.contains(variable) {
-                rhs = a
-                lhs = lhs * b
+                lhs = a
+                rhs = rhs * b
             }
             if b.contains(variable) {
-                rhs = b
-                lhs = a / lhs
+                lhs = b
+                rhs = a / rhs
             }
-        case .power(_, _):
-            fatalError()
+        case let .power(base, exponent):
+            if base.contains(variable) {
+                lhs = base
+                rhs = rhs ** (1/exponent)
+            }
+            if exponent.contains(variable) {
+                fatalError("TODO: implement ln")
+            }
         case .function( _, _, _):
             fatalError()
         }
         
-        if rhs.contains(variable) {
+        if lhs.contains(variable) {
             solve(for: variable)
         }
+        //(lhs, rhs) = (rhs, lhs)
     }
     
 }

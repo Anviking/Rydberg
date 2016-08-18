@@ -20,9 +20,21 @@ eq.lhs.derive(withRespectTo: x)
 
 let π = Expression.variable(Variable(identifier: "π", value: M_PI))
 
-LatexRenderer().render(expression: x / (2 + 3) + 3 * π)
+let renderer = LatexRenderer()
+renderer.render(x / (2 + 3) + 3 *  π)
 
 let a = 4.kg
 
-let renderer = LatexRenderer()
-print(renderer.render(equation: p, label: "polynomial"))
+//renderer.render(equation: p, label: "polynomial")
+
+// Rydberg's formula
+let λ = Variable(identifier: "λ", value: 5000)
+let R = Variable(identifier: "R", value: 1.0973731569e7)
+let n1 = Variable(identifier: "n_1", value: 2)
+let n2 = Variable(identifier: "n_2", value: 3)
+
+// TODO: Constraint to integers, solve for multiple variables and regression and stuff
+// Note, this isn't perfect (missing paranthensis)
+let rydbergsFormula = 1 / λ == R * (1 / n1 ** 2 - 1 / n2 ** 2)
+let s = rydbergsFormula.solving(for: λ).rhs.value
+//print(renderer.render(s))
