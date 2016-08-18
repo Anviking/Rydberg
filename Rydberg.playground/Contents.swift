@@ -19,3 +19,5 @@ eq.lhs.derive(withRespectTo: x)
 let π = Expression.variable(Variable(identifier: "π", value: M_PI))
 
 LatexRenderer().render(expression: .variable(x) / (2 + 3) + 3 * π)
+
+let a = 4.kg
