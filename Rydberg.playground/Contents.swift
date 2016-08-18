@@ -23,3 +23,6 @@ let π = Expression.variable(Variable(identifier: "π", value: M_PI))
 LatexRenderer().render(expression: x / (2 + 3) + 3 * π)
 
 let a = 4.kg
+
+let renderer = LatexRenderer()
+print(renderer.render(equation: p, label: "polynomial"))
