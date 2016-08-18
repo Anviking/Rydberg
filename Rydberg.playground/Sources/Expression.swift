@@ -119,32 +119,58 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
             return a.contains(variable)
         }
     }
+    
+    func optimized() -> Expression {
+        switch self {
+        case .addition(let a, 0):
+            return a
+        case .addition(0, let a):
+            return a
+        case .multiplication(0, _):
+            return 0
+        case .multiplication(_, 0):
+            return 0
+        case .multiplication(1, let a):
+            return a
+        case .multiplication(let a, 1):
+            return a
+        
+        case .division(let a, 1):
+            return a
+        default:
+            return self
+        }
+    }
+}
+
+func ~= (lhs: Double, rhs: Expression) -> Bool {
+    return rhs.value == lhs
 }
 
 // MARK: Operators
 
 
 public func + (a: Expression, b: Expression) -> Expression {
-    return .addition(a, b)
+    return Expression.addition(a, b).optimized()
 }
 
 public func - (a: Expression, b: Expression) -> Expression {
-    return .subtraction(a, b)
+    return Expression.subtraction(a, b).optimized()
 }
 
 public func * (a: Expression, b: Expression) -> Expression {
-    return .multiplication(a, b)
+    return Expression.multiplication(a, b).optimized()
 }
 
 public func / (a: Expression, b: Expression) -> Expression {
-    return .division(a, b)
+    return Expression.division(a, b).optimized()
 }
 
-precedencegroup PowerPrecendence {
-    higherThan: MultiplicationPrecedence
+precedencegroup PowerPrecedence {
+    higherThan: MultiplicationPrecedence, AdditionPrecedence
 }
 
-infix operator ** : PowerPrecendence
+infix operator ** : PowerPrecedence
 public func ** (a: Expression, b: Expression) -> Expression {
     return .power(base: a, exponent: b)
 }
