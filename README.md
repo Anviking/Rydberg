@@ -13,6 +13,7 @@ Managing complicated calculations in Python as well as updating the results in y
 - Render expressions as `LaTeX`
 
 ### Todo
+- Plot equations automatically in an appropriate interval if derivatives can be found.
 - Better `LaTeX` support
 - Linear Regressions etc.
 - Measurements with uncertainties (preferably inferred based on significant digits)
