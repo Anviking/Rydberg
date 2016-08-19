@@ -10,10 +10,10 @@ Managing complicated calculations in Python as well as updating the results in y
 ### Partially implemented features
 - Deriving expressions using common derivation rules
 - Solve simple equations
-- Render expressions as `LaTex`
+- Render expressions as `LaTeX`
 
 ### Todo
-- Better `LaTex` support
+- Better `LaTeX` support
 - Linear Regressions etc.
 - Measurements with uncertainties (preferably inferred based on significant digits)
 - Better Unit system
