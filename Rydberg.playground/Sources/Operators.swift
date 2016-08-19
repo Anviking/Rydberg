@@ -4,6 +4,10 @@ func ~= (lhs: Double, rhs: Expression) -> Bool {
     return rhs.value == lhs
 }
 
+func ~= (lhs: Int, rhs: Expression) -> Bool {
+    return rhs.value == Double(lhs)
+}
+
 // MARK: Addition
 
 public func + (a: Expression, b: Expression) -> Expression {
@@ -90,4 +94,8 @@ public func sin(_ a: Expression) -> Expression {
 
 public func cos(_ a: Expression) -> Expression {
     return .function(a, "cos", cos)
+}
+
+public func ln(_ a: Expression) -> Expression {
+    return .function(a, "ln", log)
 }

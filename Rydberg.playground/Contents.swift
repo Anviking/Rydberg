@@ -39,6 +39,8 @@ let rydbergsFormula = 1 / λ == R * (1 / n1 ** 2 - 1 / n2 ** 2)
 let s = rydbergsFormula.solving(for: λ).rhs.value
 //print(renderer.render(s))
 
+(x ** -1).derive(withRespectTo: x)
+
 let data: [(Double, Double?)] = [
     (-22.2547, nil),
     (-46.5711, nil),
@@ -59,4 +61,5 @@ let data: [(Double, Double?)] = [
 // Filter data
 let calibrationData = data.flatMap { (x, y) in y.map { (x: x, y: $0) }}
 
-LinearRegression(data: calibrationData).slope
+let curve = LinearRegression(data: calibrationData).function
+data.map { curve($0.0) }

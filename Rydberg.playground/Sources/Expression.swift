@@ -49,35 +49,6 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
             return f(a.value)
         }
     }
-    
-    public func derive(withRespectTo variable: Variable) -> Expression {
-        switch self {
-        case .constant(_):
-            return .constant(0)
-        case .variable(let v) where v === variable:
-            return 1
-        case .variable(let v):
-            return .variable(v)
-        case let .addition(a, b), let .subtraction(a, b):
-            return a.derive(withRespectTo: variable) + b.derive(withRespectTo: variable)
-        case let .multiplication(a, b):
-            return a.derive(withRespectTo: variable) * b + a * b.derive(withRespectTo: variable)
-        case let .division(a, b):
-            return (a.derive(withRespectTo: variable) * b - a * b.derive(withRespectTo: variable)) / b ** 2
-        case let .power(base: a, exponent: b):
-            return (b) * a ** (b - 1)
-        case .function(let a, let d, _):
-            switch d {
-            case "sin":
-                return cos(a) * a.derive(withRespectTo: variable)
-            case "sqrt":
-                return a.derive(withRespectTo: variable) / (2 * sqrt(a))
-            default:
-                fatalError("could not derrive \(self)")
-            }
-        }
-    }
-    
     public var description: String {
         switch self {
         case .constant(let d):
