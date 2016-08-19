@@ -1,17 +1,5 @@
 import Foundation
 
-public class Variable {
-    public var identifier: String
-    public var description: String
-    public var value: Double
-    
-    public init(identifier: String, value: Double, description: String? = nil) {
-        self.identifier = identifier
-        self.value = value
-        self.description = description ?? identifier
-    }
-}
-
 public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
     case constant(Double)
     case variable(Variable)
@@ -29,7 +17,7 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
         self = .constant(Double(value))
     }
     
-    public var value: Double {
+    public var value: Double? {
         switch self {
         case .constant(let d):
             return d
@@ -43,10 +31,11 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
             return a.value * b.value
         case .division(let a, let b):
             return a.value / b.value
-        case let .power(base: a, exponent: b):
-            return pow(a.value, b.value)
+        case let .power(base, exponent):
+            guard let base = base.value, let exponent = exponent.value else { return nil }
+            return pow(base, exponent)
         case let .function(f, of: inner):
-            return f.evaluate(inner.value)
+            return inner.value.map(f.evaluate)
         }
     }
     public var description: String {
@@ -112,4 +101,26 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
             return self
         }
     }
+}
+
+// MARK: Private operator overloads
+
+private func + (lhs: Double?, rhs: Double?) -> Double? {
+    guard let lhs = lhs, let rhs = rhs else { return nil }
+    return lhs + rhs
+}
+
+private func - (lhs: Double?, rhs: Double?) -> Double? {
+    guard let lhs = lhs, let rhs = rhs else { return nil }
+    return lhs - rhs
+}
+
+private func * (lhs: Double?, rhs: Double?) -> Double? {
+    guard let lhs = lhs, let rhs = rhs else { return nil }
+    return lhs - rhs
+}
+
+private func / (lhs: Double?, rhs: Double?) -> Double? {
+    guard let lhs = lhs, let rhs = rhs else { return nil }
+    return lhs / rhs
 }

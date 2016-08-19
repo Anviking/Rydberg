@@ -4,6 +4,11 @@ public func == (lhs: Expression, rhs: Expression) -> Equation {
     return Equation(lhs: lhs, rhs: rhs)
 }
 
+/// A struct representing an equation
+///
+/// It prefers being in the form `a = complicated expression` i.e having the right hand side
+/// be the most complex, in that accessing `.value` returns the value on the rhs, and `solving(for:)`
+/// puts the `for` variable in the lhs.
 public struct Equation: CustomStringConvertible {
     public var lhs: Expression
     public var rhs: Expression
@@ -11,6 +16,11 @@ public struct Equation: CustomStringConvertible {
     public init(lhs: Expression, rhs: Expression) {
         self.lhs = lhs
         self.rhs = rhs
+    }
+    
+    /// Convenience accessor for `rhs.value`
+    var value: Double? {
+        return rhs.value
     }
     
     public var description: String {
