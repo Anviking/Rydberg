@@ -1,5 +1,6 @@
 import Foundation
 
+/*
 /// An infix operator
 public enum Operator: CustomStringConvertible {
     case addition, subtraction, multiplication, power
@@ -30,6 +31,7 @@ public enum Operator: CustomStringConvertible {
         }
     }
 }
+ */
 
 func ~= (lhs: Double, rhs: Expression) -> Bool {
     return rhs.value == lhs
