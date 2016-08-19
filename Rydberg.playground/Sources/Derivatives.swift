@@ -1,7 +1,14 @@
 import Foundation
 
 extension Expression {
-    public func derive(withRespectTo variable: Variable) -> Expression {
+    public func derivative(ofDegree degree: UInt, withRespectTo variable: Variable) -> Expression {
+        var result = self
+        for _ in 0 ..< degree {
+            result = result.derivative(withRespectTo: variable)
+        }
+        return result
+    }
+    public func derivative(withRespectTo variable: Variable) -> Expression {
         switch self {
         case .constant(_):
             return .constant(0)
@@ -14,20 +21,20 @@ extension Expression {
             
             
         case let .addition(a, b), let .subtraction(a, b):
-            return a.derive(withRespectTo: variable) + b.derive(withRespectTo: variable)
+            return a.derivative(withRespectTo: variable) + b.derivative(withRespectTo: variable)
             
             
         case let .multiplication(a, b):
-            return a.derive(withRespectTo: variable) * b + a * b.derive(withRespectTo: variable)
+            return a.derivative(withRespectTo: variable) * b + a * b.derivative(withRespectTo: variable)
             
         case let .division(a, b):
-            return (a.derive(withRespectTo: variable) * b - a * b.derive(withRespectTo: variable)) / b ** 2
+            return (a.derivative(withRespectTo: variable) * b - a * b.derivative(withRespectTo: variable)) / b ** 2
             
             
         case let .power(base, exponent):
             switch exponent {
             case -1:
-                return base.derive(withRespectTo: variable) * ln(base)
+                return base.derivative(withRespectTo: variable) * ln(base)
             default:
                 return (exponent) * base ** (exponent - 1)
             }
@@ -35,7 +42,7 @@ extension Expression {
         case let .function(f, of: inner):
             
             // Chain rule
-            let innerDerivative = inner.derive(withRespectTo: variable)
+            let innerDerivative = inner.derivative(withRespectTo: variable)
             
             switch f {
             case .sin:

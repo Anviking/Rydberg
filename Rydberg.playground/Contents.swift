@@ -4,11 +4,11 @@ import Cocoa
 
 let x = Variable(identifier: "x", value: 3)
 let ƒ: Expression = 1 + 3 * sin((2 * x))
-let ƒ´ = ƒ.derive(withRespectTo: x)
+let ƒ´ = ƒ.derivative(withRespectTo: x)
 ƒ´.value
 
-let g: Expression = 2 * x + 3
-
+let g: Expression = x ** 2 + 1
+g.derivative(ofDegree: 2, withRespectTo: x)
 let y = Variable(identifier: "y", value: 3)
 
 let p: Expression = 4 * x ** 3 + 2 * x ** 2 - 4 * x + 1
@@ -16,14 +16,14 @@ let p: Expression = 4 * x ** 3 + 2 * x ** 2 - 4 * x + 1
 var eq = Equation(lhs: .variable(y), rhs: g)
 eq.solve(for: x)
 eq.solve(for: y)
-eq.lhs.derive(withRespectTo: x)
+eq.lhs.derivative(withRespectTo: x)
 
 let π = Expression.variable(Variable(identifier: "π", value: M_PI))
 
 let renderer = LatexRenderer()
 renderer.render(x / (2 + 3) + 3 *  π)
 
-let a = 4.kg
+let a = 4
 
 //renderer.render(equation: p, label: "polynomial")
 
@@ -39,7 +39,7 @@ let rydbergsFormula = 1 / λ == R * (1 / n1 ** 2 - 1 / n2 ** 2)
 let s = rydbergsFormula.solving(for: λ).rhs.value
 //print(renderer.render(s))
 
-(x ** -1).derive(withRespectTo: x)
+(x ** -1).derivative(withRespectTo: x)
 
 let data: [(Double, Double?)] = [
     (-22.2547, nil),
