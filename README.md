@@ -18,5 +18,6 @@ Managing complicated calculations in Python as well as updating the results in y
 - Linear Regressions etc.
 - Measurements with uncertainties (preferably inferred based on significant digits)
 - Better Unit system
+- Leverage type system if possible
 - More algebraeic functionality
 - MathJax?
