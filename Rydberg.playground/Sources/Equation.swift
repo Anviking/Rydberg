@@ -76,7 +76,7 @@ public struct Equation: CustomStringConvertible {
             if exponent.contains(variable) {
                 fatalError("TODO: implement ln")
             }
-        case .function( _, _, _):
+        case .function( _, _):
             fatalError()
         }
         

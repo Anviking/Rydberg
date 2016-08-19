@@ -23,7 +23,7 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
     
     indirect case power(base: Expression, exponent: Expression)
     
-    indirect case function(Expression, String, (Double) -> Double)
+    indirect case function(Function, of: Expression)
     
     public init(integerLiteral value: Int) {
         self = .constant(Double(value))
@@ -45,8 +45,8 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
             return a.value / b.value
         case let .power(base: a, exponent: b):
             return pow(a.value, b.value)
-        case .function(let a, _, let f):
-            return f(a.value)
+        case let .function(f, of: inner):
+            return f.evaluate(inner.value)
         }
     }
     public var description: String {
@@ -65,8 +65,8 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
             return "(\(a.description) / \(b.description))"
         case let .power(base: a, exponent: b):
             return "(\(a.description) ^ \(b.description))"
-        case .function(let a, let d, _):
-            return "(\(d)(\(a.description)))"
+        case let .function(f, of: inner):
+            return "(\(f)(\(inner.description)))"
         }
     }
     
@@ -86,8 +86,8 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
             return a.contains(variable) || b.contains(variable)
         case let .power(base: a, exponent: b):
             return a.contains(variable) || b.contains(variable)
-        case .function(let a, _, _):
-            return a.contains(variable)
+        case .function(_, let inner):
+            return inner.contains(variable)
         }
     }
     

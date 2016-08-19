@@ -1,5 +1,36 @@
 import Foundation
 
+/// An infix operator
+public enum Operator: CustomStringConvertible {
+    case addition, subtraction, multiplication, power
+    
+    public var description: String {
+        switch self {
+        case .addition:
+            return "+"
+        case .subtraction:
+            return "-"
+        case .multiplication:
+            return "*"
+        case .power:
+            return "^"
+        }
+    }
+    
+    public func evaluate(lhs: Double, rhs: Double) -> Double {
+        switch self {
+        case .addition:
+            return lhs + rhs
+        case .subtraction:
+            return lhs - rhs
+        case .multiplication:
+            return lhs * rhs
+        case .power:
+            return lhs * rhs
+        }
+    }
+}
+
 func ~= (lhs: Double, rhs: Expression) -> Bool {
     return rhs.value == lhs
 }
@@ -84,18 +115,18 @@ public func ** (a: Expression, b: Variable) -> Expression {
     return Expression.power(base: a, exponent: .variable(b))
 }
 
-public func sqrt(_ a: Expression) -> Expression {
-    return .function(a, "sqrt", sqrt)
+public func sqrt(_ x: Expression) -> Expression {
+    return .function(.sqrt, of: x)
 }
 
-public func sin(_ a: Expression) -> Expression {
-    return .function(a, "sin", sin)
+public func sin(_ x: Expression) -> Expression {
+    return .function(.sin, of: x)
 }
 
-public func cos(_ a: Expression) -> Expression {
-    return .function(a, "cos", cos)
+public func cos(_ x: Expression) -> Expression {
+    return .function(.cos, of: x)
 }
 
-public func ln(_ a: Expression) -> Expression {
-    return .function(a, "ln", log)
+public func ln(_ x: Expression) -> Expression {
+    return .function(.ln, of: x)
 }
