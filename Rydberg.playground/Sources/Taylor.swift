@@ -17,6 +17,6 @@ public func taylorExpansion(of f: Expression, at a: Double, variable x: Variable
         expression = expression + (.variable(x) - .constant(Double(a))) ** .constant(Double(i)) * .constant(coefficient) / .constant(Double(factorial(i)))
     }
     
-    return expression.optimized()
+    return expression.simplified()
 }
  

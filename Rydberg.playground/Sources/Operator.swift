@@ -54,7 +54,7 @@ func ~= (lhs: Int, rhs: Expression) -> Bool {
 // MARK: Addition
 
 public func + (a: Expression, b: Expression) -> Expression {
-    return Expression.addition(a, b).optimized()
+    return Expression.addition(a, b)
 }
 
 public func + (a: Variable, b: Expression) -> Expression {
@@ -68,7 +68,7 @@ public func + (a: Expression, b: Variable) -> Expression {
 // MARK: Subtraction
 
 public func - (a: Expression, b: Expression) -> Expression {
-    return Expression.subtraction(a, b).optimized()
+    return Expression.subtraction(a, b)
 }
 
 public func - (a: Variable, b: Expression) -> Expression {
@@ -96,7 +96,7 @@ public func * (a: Expression, b: Variable) -> Expression {
 // MARK: Division
 
 public func / (a: Expression, b: Expression) -> Expression {
-    return Expression.division(a, b).optimized()
+    return Expression.division(a, b)
 }
 
 public func / (a: Variable, b: Expression) -> Expression {

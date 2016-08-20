@@ -80,29 +80,64 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
         }
     }
     
+    /// Perform recursive simplifications from the bottom and up
+    public func simplified() -> Expression {
+        var result: Expression
+        switch self {
+        case let .addition(a, b):
+            result = a.simplified() + b.simplified()
+        case let .subtraction(a, b):
+            result = a.simplified() - b.simplified()
+        case let .multiplication(a, b):
+            result = a.simplified() * b.simplified()
+        case let .division(a, b):
+            result = a.simplified() / b.simplified()
+            
+        case let .power(a, b):
+            result = a.simplified() ** b.simplified()
+            
+        case let .function(f, inner):
+            result = .function(f, of: inner.simplified())
+            
+        case let .variable(v):
+            result = .variable(v)
+        case let .constant(v):
+            result = .constant(v)
+        }
+        
+        return result.optimized()
+    }
+    
+    /// Perform simplifications on this node only
     func optimized() -> Expression {
         switch self {
         case .addition(let a, 0):
-            return a.optimized()
+            return a
         case .addition(0, let a):
+            return a
+            
+        case .subtraction(let a, 0):
             return a.optimized()
+            
         case .multiplication(0, _):
             return 0
         case .multiplication(_, 0):
             return 0
         case .multiplication(1, let a):
-            return a.optimized()
+            return a
         case .multiplication(let a, 1):
-            return a.optimized()
+            return a
             
         case .power(let base, 1):
-            return base.optimized()
+            return base
             
         case .power(let base, -1):
-            return 1 / base.optimized()
+            return 1 / base
         
         case .division(let a, 1):
-            return a.optimized()
+            return a
+        case .division(0, _):
+            return 0
         default:
             return self
         }
