@@ -34,11 +34,21 @@ public enum Operator: CustomStringConvertible {
  */
 
 func ~= (lhs: Double, rhs: Expression) -> Bool {
-    return rhs.value == lhs
+    switch rhs {
+    case .constant(let c):
+        return c == Double(lhs)
+    default:
+        return false
+    }
 }
 
 func ~= (lhs: Int, rhs: Expression) -> Bool {
-    return rhs.value == Double(lhs)
+    switch rhs {
+    case .constant(let c):
+        return c == Double(lhs)
+    default:
+        return false
+    }
 }
 
 // MARK: Addition
@@ -72,7 +82,7 @@ public func - (a: Expression, b: Variable) -> Expression {
 // MARK: Multiplication
 
 public func * (a: Expression, b: Expression) -> Expression {
-    return Expression.multiplication(a, b).optimized()
+    return Expression.multiplication(a, b)
 }
 
 public func * (a: Variable, b: Expression) -> Expression {

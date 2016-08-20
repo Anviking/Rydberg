@@ -63,3 +63,10 @@ let calibrationData = data.flatMap { (x, y) in y.map { (x: x, y: $0) }}
 
 let curve = LinearRegression(data: calibrationData).function
 data.map { curve($0.0) }
+
+
+
+
+
+
+

@@ -83,20 +83,26 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
     func optimized() -> Expression {
         switch self {
         case .addition(let a, 0):
-            return a
+            return a.optimized()
         case .addition(0, let a):
-            return a
+            return a.optimized()
         case .multiplication(0, _):
             return 0
         case .multiplication(_, 0):
             return 0
         case .multiplication(1, let a):
-            return a
+            return a.optimized()
         case .multiplication(let a, 1):
-            return a
+            return a.optimized()
+            
+        case .power(let base, 1):
+            return base.optimized()
+            
+        case .power(let base, -1):
+            return 1 / base.optimized()
         
         case .division(let a, 1):
-            return a
+            return a.optimized()
         default:
             return self
         }
@@ -117,7 +123,7 @@ private func - (lhs: Double?, rhs: Double?) -> Double? {
 
 private func * (lhs: Double?, rhs: Double?) -> Double? {
     guard let lhs = lhs, let rhs = rhs else { return nil }
-    return lhs - rhs
+    return lhs * rhs
 }
 
 private func / (lhs: Double?, rhs: Double?) -> Double? {
