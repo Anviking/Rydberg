@@ -19,7 +19,7 @@ public struct Equation: CustomStringConvertible {
     }
     
     /// Convenience accessor for `rhs.value`
-    var value: Double? {
+    public var value: Double? {
         return rhs.value
     }
     

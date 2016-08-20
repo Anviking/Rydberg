@@ -40,6 +40,13 @@ public struct LinearRegression {
 func average<C: Collection>(_ input: C) -> Double where C.Iterator.Element == Double, C.IndexDistance == Int {
     return input.reduce(0, +) / Double(input.count)
 }
+
+/*
+func optimize(expression: Expression, toEqual: Double) {
+    
+}
+ */
+
 /*
 // TODO: Generalize
 func optimizeIntegers(range: Range<Int>, variable: Variable, function: (Void) -> Double) {

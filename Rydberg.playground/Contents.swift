@@ -36,7 +36,7 @@ let n2 = Variable(identifier: "n_2", value: 3)
 // TODO: Constraint to integers, solve for multiple variables and regression and stuff
 // Note, this isn't perfect (missing paranthensis)
 let rydbergsFormula = 1 / λ == R * (1 / n1 ** 2 - 1 / n2 ** 2)
-let s = rydbergsFormula.solving(for: λ).rhs.value
+let s = rydbergsFormula.solving(for: λ).value
 //print(renderer.render(s))
 
 (x ** -1).derivative(withRespectTo: x)
