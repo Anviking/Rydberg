@@ -12,6 +12,9 @@ let f´ = f.derivative(withRespectTo: x)
 
 ((0-1)/(x*1 + x ** 3)).simplified()
 
+
+let a = x ** 2 + 3
+
 document.append(f)
 document.append(f´)
 

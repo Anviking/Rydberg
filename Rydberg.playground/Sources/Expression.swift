@@ -175,6 +175,16 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
         case .division(0, _):
             return 0
             
+        case let .division(.constant(a), .constant(b)):
+            if a.truncatingRemainder(dividingBy: b) == 0 {
+                return .constant(a / b)
+            } else {
+                return .constant(a) / .constant(b)
+            }
+            
+        case let .division(.multiplication(a, .constant(b)), .constant(c)):
+            return ((.constant(b) / .constant(c)) * a).optimized()
+            
         case let .division(.division(a, b), .division(c, d)):
             return (a * d).optimized() / (b * c).optimized()
         case let .division(.division(a, b), c):
