@@ -10,12 +10,14 @@ public func factorial<I: Integer>(_ number: I) -> (I) {
 
 public func taylorExpansion<X>(of f: Function<X>, at a: X, degree: UInt) -> Function<X> {
     var result: Function<X> = .constant(0)
+    var f_n = f
     for i in 0 ... degree {
-        let der = f.derivative(ofDegree: degree)
-        let coefficient = der[a]
-        
-        let a: Function<X> = (.variable(X.self) - .constant(a.value)) ** .constant(Double(i))
-        result = result + a * .constant(coefficient) / .constant(Double(factorial(i)))
+        defer { f_n.derive() }
+        let coefficient = f_n[a]
+        if coefficient != 0 {
+            let a: Function<X> = (.variable(X.self) - .constant(a.value)) ** .constant(Double(i))
+            result = result + a * .constant(coefficient) / .constant(Double(factorial(i)))
+        }
     }
     
     return result

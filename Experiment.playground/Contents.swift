@@ -6,5 +6,6 @@ let x_0: x = 1
 let f = sin(x.self)
 f′
 f[2]
-
-taylorExpansion(of: f, at: 0, degree: 5)
+let start = CACurrentMediaTime()
+taylorExpansion(of: f, at: 0, degree: 10)[2]
+print(CACurrentMediaTime() - start)
