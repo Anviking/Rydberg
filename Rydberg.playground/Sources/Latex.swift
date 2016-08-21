@@ -37,12 +37,20 @@ public struct LatexRenderer {
             return render(a) + " + " + render(b)
         case let .subtraction(a, b):
             return render(a) + " - " + render(b)
+            
+        case let .multiplication(a, .addition(b, c)):
+            return render(a) + " \\left(" + render(b) + " + " + render(c) + "\\right)"
         case let .multiplication(a, b):
             return render(a) + " \\cdot " + render(b)
+        
         case let .division(a, b):
             return "\\frac{\(render(a))}{\(render(b))}"
+        
+        case let .power(.variable(base), exponent):
+            return "{" + render(.variable(base)) + "}^{" + render(exponent) + "}"
         case let .power(base, exponent):
-            return "{" + render(base) + "}^{" + render(exponent) + "}"
+            return "\\left(" + render(base) + "\\right)^{" + render(exponent) + "}"
+        
         case let .function(f, of: inner):
             switch f {
             case .arctan:

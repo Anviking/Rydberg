@@ -51,6 +51,15 @@ func ~= (lhs: Int, rhs: Expression) -> Bool {
     }
 }
 
+func ~= (rhs: Expression, lhs: Int) -> Bool {
+    switch rhs {
+    case .constant(let c):
+        return c == Double(lhs)
+    default:
+        return false
+    }
+}
+
 // MARK: Addition
 
 public func + (a: Expression, b: Expression) -> Expression {

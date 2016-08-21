@@ -165,6 +165,12 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
             return a
         case .division(0, _):
             return 0
+            
+        case let .division(.division(a, b), .division(c, d)):
+            return (a * d).optimized() / (b * c).optimized()
+        case let .division(.division(a, b), c):
+            return (a).optimized() / (b * c).optimized()
+            
         default:
             return self
         }

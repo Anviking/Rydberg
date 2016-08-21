@@ -10,6 +10,8 @@ var document = LatexDocument()
 let f = arctan(1 / x) + arctan(x)
 let f´ = f.derivative(withRespectTo: x)
 
+((0-1)/(x*1 + x ** 3)).simplified()
+
 document.append(f)
 document.append(f´)
 
