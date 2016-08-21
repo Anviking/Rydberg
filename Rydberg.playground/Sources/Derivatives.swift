@@ -58,7 +58,7 @@ extension Expression {
             case .sqrt:
                 return innerDerivative / (2 * sqrt(inner))
             case .arctan:
-                return innerDerivative / 1 + inner ** 2
+                return innerDerivative / (1 + inner ** 2)
             case .arcsin:
                 return innerDerivative / sqrt(1 - inner ** 2)
             case .arccos:
