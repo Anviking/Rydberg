@@ -79,6 +79,16 @@ public func - (a: Expression, b: Variable) -> Expression {
     return .subtraction(a, .variable(b))
 }
 
+// Unary negation
+
+public prefix func - (a: Expression) -> Expression {
+    return Expression.subtraction(0, a)
+}
+
+public prefix func - (a: Variable) -> Expression {
+    return Expression.subtraction(0, .variable(a))
+}
+
 // MARK: Multiplication
 
 public func * (a: Expression, b: Expression) -> Expression {
@@ -137,6 +147,30 @@ public func sin(_ x: Expression) -> Expression {
 
 public func cos(_ x: Expression) -> Expression {
     return .function(.cos, of: x)
+}
+
+public func arctan(_ x: Expression) -> Expression {
+    return .function(.arctan, of: x)
+}
+
+public func arctan(_ x: Variable) -> Expression {
+    return .function(.arctan, of: .variable(x))
+}
+
+public func arcsin(_ x: Expression) -> Expression {
+    return .function(.arcsin, of: x)
+}
+
+public func arcsin(_ x: Variable) -> Expression {
+    return .function(.arcsin, of: .variable(x))
+}
+
+public func arccos(_ x: Expression) -> Expression {
+    return .function(.arccos, of: x)
+}
+
+public func arccos(_ x: Variable) -> Expression {
+    return .function(.arccos, of: .variable(x))
 }
 
 public func ln(_ x: Expression) -> Expression {

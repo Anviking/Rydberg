@@ -1,5 +1,6 @@
 import Foundation
 
+
 extension Expression {
     public func derivative(ofDegree degree: UInt, withRespectTo variable: Variable) -> Expression {
         var result = self
@@ -8,7 +9,12 @@ extension Expression {
         }
         return result
     }
+    
     public func derivative(withRespectTo variable: Variable) -> Expression {
+        return unsimplifiedDerivative(withRespectTo: variable).simplified()
+    }
+    
+    private func unsimplifiedDerivative(withRespectTo variable: Variable) -> Expression {
         switch self {
         case .constant(_):
             return .constant(0)
@@ -48,9 +54,15 @@ extension Expression {
             case .sin:
                 return cos(inner) * innerDerivative
             case .cos:
-                return (-1) * sin(inner) * innerDerivative
+                return -sin(inner) * innerDerivative
             case .sqrt:
                 return innerDerivative / (2 * sqrt(inner))
+            case .arctan:
+                return innerDerivative / 1 + inner ** 2
+            case .arcsin:
+                return innerDerivative / sqrt(1 - inner ** 2)
+            case .arccos:
+                return -innerDerivative / sqrt(1 - inner ** 2)
             default:
                 fatalError("could not derrive \(self)")
             }

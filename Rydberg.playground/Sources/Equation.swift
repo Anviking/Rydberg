@@ -41,6 +41,8 @@ public struct Equation: CustomStringConvertible {
         case .constant(_):
             fatalError()
         case .variable(_):
+            rhs = rhs.simplified()
+            lhs = lhs.simplified()
             return
         case .addition(let a, let b):
             if a.contains(variable) {
@@ -86,8 +88,14 @@ public struct Equation: CustomStringConvertible {
             if exponent.contains(variable) {
                 fatalError("TODO: implement ln")
             }
-        case .function( _, _):
-            fatalError()
+        case let .function(f, of: inner):
+            switch f {
+            case .sqrt:
+                lhs = inner
+                rhs = rhs ** 2
+            default:
+                fatalError()
+            }
         }
         
         if lhs.contains(variable) {

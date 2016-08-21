@@ -80,6 +80,27 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
         }
     }
     
+    var isConstant: Bool {
+        switch self {
+        case .constant(_):
+            return true
+        case .variable(let v):
+            return false
+        case .addition(let a, let b):
+            return a.isConstant && b.isConstant
+        case .subtraction(let a, let b):
+            return a.isConstant && b.isConstant
+        case .multiplication(let a, let b):
+            return a.isConstant && b.isConstant
+        case .division(let a, let b):
+            return a.isConstant && b.isConstant
+        case let .power(base: a, exponent: b):
+            return a.isConstant && b.isConstant
+        case .function(_, let inner):
+            return inner.isConstant
+        }
+    }
+    
     /// Perform recursive simplifications from the bottom and up
     public func simplified() -> Expression {
         var result: Expression
@@ -133,6 +154,12 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
             
         case .power(let base, -1):
             return 1 / base
+        
+        case .power(let base, 0.5):
+            return sqrt(base)
+            
+        case .power(let base, .division(1, 2)):
+            return sqrt(base)
         
         case .division(let a, 1):
             return a
