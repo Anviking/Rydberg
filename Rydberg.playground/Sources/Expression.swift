@@ -41,7 +41,7 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
     public var description: String {
         switch self {
         case .constant(let d):
-            return String(format: "%%.0g", arguments: [d])
+            return String(format: "%g", arguments: [d])
         case .variable(let v):
             return v.identifier
         case .addition(let a, let b):
