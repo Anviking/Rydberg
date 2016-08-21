@@ -11,6 +11,7 @@ let f = arctan(1 / x) + arctan(x)
 let f´ = f.derivative(withRespectTo: x)
 
 document.append(f)
+document.append(f´)
 
 let v = SJLatexView(latex: document.latex, frame: CGRect(x: 0, y: 0, width: 300, height: 500))
 XCPlaygroundPage.currentPage.liveView = v

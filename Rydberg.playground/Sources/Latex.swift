@@ -12,6 +12,10 @@ public struct LatexDocument {
     public mutating func append(_ expression: Expression) {
         latex.append("\\[" + renderer.render(expression) + "\\]")
     }
+    
+    public mutating func append(_ paragraph: String) {
+        latex.append("\n" + paragraph + "\n")
+    }
 }
 
 public struct LatexRenderer {
@@ -21,7 +25,7 @@ public struct LatexRenderer {
     public func render(_ expression: Expression) -> String {
         switch expression {
         case .constant(let c):
-            return "\(c)"
+            return String(format: "%g", arguments: [c])
         case .variable(let v):
             switch v.identifier {
             case "π":
