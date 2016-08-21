@@ -34,13 +34,15 @@ extension Expression {
             return a.derivative(withRespectTo: variable) * b + a * b.derivative(withRespectTo: variable)
             
         case let .division(a, b):
-            return (a.derivative(withRespectTo: variable) * b - a * b.derivative(withRespectTo: variable)) / b ** 2
+            return (a.derivative(withRespectTo: variable) * b - a * b.derivative(withRespectTo: variable)) / (b ** 2)
             
             
         case let .power(base, exponent):
             switch exponent {
+                /* WTF?
             case -1:
                 return base.derivative(withRespectTo: variable) * ln(base)
+                 */
             default:
                 return (exponent) * base ** (exponent - 1)
             }

@@ -149,6 +149,15 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
         case .multiplication(let a, 1):
             return a
             
+            
+        case let .addition(.constant(a), .constant(b)):
+            return .constant(a + b)
+        case let .subtraction(.constant(a), .constant(b)):
+            return .constant(a - b)
+            
+        case let .power(.division(1, base), exponent):
+            return 1 / base ** exponent
+            
         case .power(let base, 1):
             return base
             
