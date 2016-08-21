@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<playground version='6.0' target-platform='macos' display-mode='raw'>
+<playground version='6.0' target-platform='ios' display-mode='raw'>
     <pages>
         <page name='Taylor Expansion'/>
-        <page name='Untitled Page'/>
+        <page name='LatexDocument'/>
         <page name='Simplification'/>
         <page name='Rydberg'/>
+        <page name='Experiment'/>
     </pages>
 </playground>

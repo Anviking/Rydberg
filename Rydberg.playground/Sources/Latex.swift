@@ -1,5 +1,19 @@
 import Foundation
 
+public struct LatexDocument {
+    public var renderer: LatexRenderer
+    public var latex: String
+    
+    public init(latex: String = "", renderer: LatexRenderer = LatexRenderer()) {
+        self.renderer = renderer
+        self.latex = latex
+    }
+    
+    public mutating func append(_ expression: Expression) {
+        latex.append("\\[" + renderer.render(expression) + "\\]")
+    }
+}
+
 public struct LatexRenderer {
     
     public init() {}
@@ -25,6 +39,15 @@ public struct LatexRenderer {
             return "\\frac{\(render(a))}{\(render(b))}"
         case let .power(base, exponent):
             return "{" + render(base) + "}^{" + render(exponent) + "}"
+        case let .function(f, of: inner):
+            switch f {
+            case .arctan:
+                return "\\arctan{" + render(inner) + "}"
+            case .arcsin:
+                return "\\arcsin{" + render(inner) + "}"
+            default:
+                fatalError("Couldn't render \(f)(\(inner))")
+            }
         default:
             fatalError()
         }

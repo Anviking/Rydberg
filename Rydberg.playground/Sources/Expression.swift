@@ -84,7 +84,7 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
         switch self {
         case .constant(_):
             return true
-        case .variable(let v):
+        case .variable(_):
             return false
         case .addition(let a, let b):
             return a.isConstant && b.isConstant
