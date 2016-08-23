@@ -17,7 +17,7 @@ Managing complicated calculations in Python as well as updating the results in y
 ### Todo
 ### Possible move towards using *types* as generic variables instead of instances
 As seen in `Experiment.playground` you could do this:
-```
+```swift
 let f = sin(x.self) // type is Function<x>
 f[0] // 0
 f´ // Function<x> = cos(x)
