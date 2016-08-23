@@ -15,6 +15,18 @@ Managing complicated calculations in Python as well as updating the results in y
 - Render expressions as `LaTeX`
 
 ### Todo
+### Possible move towards using *types* as generic variables instead of instances
+As seen in `Experiment.playground` you could do this:
+```
+let f = sin(x.self) // type is Function<x>
+f[0] // 0
+f´ // Function<x> = cos(x)
+```
+The requirement to call `.self` to reference the type will perhaps go away in future Swift versions, so this is perhaps not as crazy as it initially seems.
+
+How this scales to multi-variable expressions and equation systems I don't know.
+
+### Other
 - Plot equations automatically in an appropriate interval if derivatives can be found.
 - Better `LaTeX` support
 - Linear Regressions etc.
