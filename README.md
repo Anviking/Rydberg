@@ -1,7 +1,7 @@
 # Rydberg
 An experiment to see if Swift can help with writing physics lab reports. Still at a conceptual level.
 
-![image](http://i.imgur.com/1PqicpT.jpg)
+![image](http://imgur.com/download/ilo046h)
 
 ## Motivation
 Managing complicated calculations in Python as well as updating the results in your paper can be very challanging.
