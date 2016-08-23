@@ -19,7 +19,7 @@ document.append(f)
 document.append(f´)
 
 arcsin(2 * x + 3)
-let d = taylorExpansion(of: arctan(x), at: 0, variable: x, degree: 9)
+let d = taylorExpansion(of: arctan(x), at: 0, variable: x, degree: 5)
 document.append(d)
 
 let v = SJLatexView(latex: document.latex, frame: CGRect(x: 0, y: 0, width: 300, height: 500))

@@ -7,5 +7,5 @@ let f = sin(x.self)
 f′
 f[2]
 let start = CACurrentMediaTime()
-taylorExpansion(of: f, at: 0, degree: 10)[2]
+taylorExpansion(of: f, at: 0, degree: 8)[2]
 print(CACurrentMediaTime() - start)

@@ -8,6 +8,4 @@ let f = x ** (2 - 0) + 0 * x ** 3 / 0
 f.simplified()
 
 
-
-
 //: [Next](@next)

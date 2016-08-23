@@ -12,7 +12,7 @@ public func taylorExpansion<X>(of f: Function<X>, at a: X, degree: UInt) -> Func
     var result: Function<X> = .constant(0)
     var f_n = f
     for i in 0 ... degree {
-        defer { f_n.derive() }
+        defer { f_n = f_n.derivative }
         let coefficient = f_n[a]
         if coefficient != 0 {
             let a: Function<X> = (.variable(X.self) - .constant(a.value)) ** .constant(Double(i))
