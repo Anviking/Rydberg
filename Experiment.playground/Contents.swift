@@ -1,11 +1,18 @@
 //: Playground - noun: a place where people can play
 
 import Cocoa
+import XCPlayground
+
+var document = LatexDocument()
 
 let x_0: x = 1
-let f = sin(x.self)
+let f = arctan(1 / x.self) + arctan(x.self)
 f′
 f[2]
-let start = CACurrentMediaTime()
-taylorExpansion(of: f, at: 0, degree: 8)[2]
-print(CACurrentMediaTime() - start)
+
+
+document.append(f)
+document.append(f′)
+
+let v = SJLatexView(latex: document.latex, frame: CGRect(x: 0, y: 0, width: 300, height: 500))
+XCPlaygroundPage.currentPage.liveView = v

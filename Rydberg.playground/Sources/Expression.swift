@@ -129,6 +129,22 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
         return result.optimized()
     }
     
+    // Experimental
+    public func factorize(variable: Variable) -> Expression? {
+        switch self {
+        case let .addition(a, b):
+            guard a.contains(variable), b.contains(variable) else { return nil }
+            switch (a, b) {
+            case let (.division(a, c), .division(b, d)):
+                return ((a * d + b * c) / (c*d)).simplified()
+            default:
+                return nil
+            }
+        default:
+            return nil
+        }
+    }
+    
     /// Perform simplifications on this node only
     func optimized() -> Expression {
         switch self {

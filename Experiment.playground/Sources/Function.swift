@@ -95,20 +95,40 @@ public func + <A: Variable>(lhs: Function<A>, rhs: Function<A>) -> Function<A> {
     return .operation(.addition, lhs, rhs)
 }
 
+public func + <A: Variable>(lhs: Function<A>, rhs: A.Type) -> Function<A> {
+    return .operation(.addition, lhs, .variable(rhs))
+}
+
 public func - <A: Variable>(lhs: Function<A>, rhs: Function<A>) -> Function<A> {
     return .operation(.subtraction, lhs, rhs)
+}
+
+public func - <A: Variable>(lhs: Function<A>, rhs: A.Type) -> Function<A> {
+    return .operation(.subtraction, lhs, .variable(rhs))
 }
 
 prefix func - <A: Variable>(a: Function<A>) -> Function<A> {
     return .operation(.subtraction, .constant(0), a)
 }
 
+prefix func - <A: Variable>(a: A.Type) -> Function<A> {
+    return .operation(.subtraction, .constant(0), .variable(a))
+}
+
 public func * <A: Variable>(lhs: Function<A>, rhs: Function<A>) -> Function<A> {
     return .operation(.multiplication, lhs, rhs)
 }
 
+public func * <A: Variable>(lhs: Function<A>, rhs: A.Type) -> Function<A> {
+    return .operation(.multiplication, lhs, .variable(rhs))
+}
+
 public func / <A: Variable>(lhs: Function<A>, rhs: Function<A>) -> Function<A> {
     return .operation(.division, lhs, rhs)
+}
+
+public func / <A: Variable>(lhs: Function<A>, rhs: A.Type) -> Function<A> {
+    return .operation(.division, lhs, .variable(rhs))
 }
 
 precedencegroup PowerPrecedence {
@@ -119,6 +139,10 @@ infix operator ** : PowerPrecedence
 
 public func ** <A: Variable>(lhs: Function<A>, rhs: Function<A>) -> Function<A> {
     return .operation(.power, lhs, rhs)
+}
+
+public func ** <A: Variable>(lhs: Function<A>, rhs: A.Type) -> Function<A> {
+    return .operation(.power, lhs, .variable(rhs))
 }
 
 
