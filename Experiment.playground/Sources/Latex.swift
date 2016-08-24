@@ -28,22 +28,22 @@ public struct LatexRenderer {
             return String(format: "%g", arguments: [c])
         case .variable(let v):
             return "\(v)"
-        case let .operation(.addition, a, b):
+        case let .addition(a, b):
             return render(a) + " + " + render(b)
-        case let .operation(.subtraction, a, b):
+        case let .subtraction(a, b):
             return render(a) + " - " + render(b)
             
-        case let .operation(.multiplication, a, .operation(.addition, b, c)):
+        case let .multiplication(a, .addition(b, c)):
             return render(a) + " \\left(" + render(b) + " + " + render(c) + "\\right)"
-        case let .operation(.multiplication, a, b):
+        case let .multiplication(a, b):
             return render(a) + " \\cdot " + render(b)
             
-        case let .operation(.division, a, b):
+        case let .division(a, b):
             return "\\frac{\(render(a))}{\(render(b))}"
             
-        case let .operation(.power, .variable(base), exponent):
+        case let .power(.variable(base), exponent):
             return "{" + render(.variable(base)) + "}^{" + render(exponent) + "}"
-        case let .operation(.power, base, exponent):
+        case let .power(base, exponent):
             return "\\left(" + render(base) + "\\right)^{" + render(exponent) + "}"
             
         case let .function(f, of: inner):
