@@ -64,6 +64,25 @@ extension Function {
         }
     }
     
+    public func parseSum() -> [Function<X>] {
+        // x + 3 + (1 * 2)
+        //  (  +  )
+        //    / \
+        //   x  +
+        //     / \
+        //    3   *
+        //       /\
+        //      1 2
+        switch self {
+        case let .addition(a, b):
+            return a.parseSum() + b.parseSum()
+        case let .subtraction(a, b):
+            return a.parseSum() + b.parseSum().map { -1 * $0 }
+        default:
+            return [self]
+        }
+    }
+    
     /// Perform simplifications on this node only
     func optimized() -> Function {
         switch self {
