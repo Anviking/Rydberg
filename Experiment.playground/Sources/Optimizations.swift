@@ -1,32 +1,37 @@
 import Foundation
 
 extension Function {
-    /// Perform recursive simplifications from the bottom and up
-    public func simplified() -> Function {
+    
+    func mapChildren(transform: (Function) -> Function) -> Function {
         var result: Function
         switch self {
         case let .addition(a, b):
-            result = a.simplified() + b.simplified()
+            result = transform(a) + transform(b)
         case let .subtraction(a, b):
-            result = a.simplified() - b.simplified()
+            result = transform(a) - transform(b)
         case let .multiplication(a, b):
-            result = a.simplified() * b.simplified()
+            result = transform(a) * transform(b)
         case let .division(a, b):
-            result = a.simplified() / b.simplified()
+            result = transform(a) / transform(b)
             
         case let .power(a, b):
-            result = a.simplified() ** b.simplified()
+            result = transform(a) ** transform(b)
             
         case let .function(f, inner):
-            result = .function(f, of: inner.simplified())
+            result = .function(f, of: transform(inner))
             
         case let .variable(v):
             result = .variable(v)
         case let .constant(v):
             result = .constant(v)
         }
-        
-        return result.optimized()
+
+        return result
+    }
+    
+    /// Perform recursive simplifications from the bottom and up
+    public func simplified() -> Function {
+        return mapChildren { $0.simplified()  }.optimized()
     }
     
     // Experimental
@@ -47,28 +52,7 @@ extension Function {
     
     // Experimental
     public var expanded: Function {
-        var result: Function
-        switch self {
-        case let .addition(a, b):
-            result = a.expanded + b.expanded
-        case let .subtraction(a, b):
-            result = a.expanded - b.expanded
-        case let .multiplication(a, b):
-            result = a.expanded * b.expanded
-        case let .division(a, b):
-            result = a.expanded / b.expanded
-            
-        case let .power(a, b):
-            result = a.expanded ** b.expanded
-            
-        case let .function(f, inner):
-            result = .function(f, of: inner.expanded)
-            
-        case let .variable(v):
-            result = .variable(v)
-        case let .constant(v):
-            result = .constant(v)
-        }
+        let result =  mapChildren { $0.expanded }
         
         switch result {
         case let .multiplication(a, .addition(b, c)):
