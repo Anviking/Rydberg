@@ -36,7 +36,7 @@ public struct LatexRenderer {
         case let .multiplication(a, .addition(b, c)):
             return render(a) + " \\left(" + render(b) + " + " + render(c) + "\\right)"
         case let .multiplication(a, b):
-            return render(a) + " \\cdot " + render(b)
+            return "(" + render(a) + " \\cdot " + render(b) + ")"
             
         case let .division(a, b):
             return "\\frac{\(render(a))}{\(render(b))}"

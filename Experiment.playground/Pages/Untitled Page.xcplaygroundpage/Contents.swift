@@ -9,10 +9,17 @@ let f = arctan(1 / x.self) + arctan(x.self)
 f′
 f[2]
 
-let a = f′.simplified().expanded.simplified()
+let a = f′.simplified().expanded.simplified().eliminateEqualTerms().simplified()
+
+
 print(a)
 let b = print(a.parseSum())
 
+let lhs: Function<x> = 2 * x.self / 2 + 2
+let rhs: Function<x> = (x.self + 2)
+let t = CFAbsoluteTimeGetCurrent()
+lhs == rhs
+CFAbsoluteTimeGetCurrent() - t
 
 document.append(f)
 document.append(a)

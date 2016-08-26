@@ -1,6 +1,10 @@
 import Foundation
 
-extension Function {
+extension Function: Equatable, Hashable {
+    
+    public var hashValue: Int {
+        return "\(self)".hashValue
+    }
     
     func mapChildren(transform: (Function) -> Function) -> Function {
         var result: Function
@@ -64,6 +68,22 @@ extension Function {
         }
     }
     
+    public func eliminateEqualTerms() -> Function {
+        let terms = parseSum()
+        var dict = [Function: Int]()
+        
+        for term in terms {
+            dict[term] = (dict[term] ?? 0) + 1
+        }
+        
+        var result = Function.constant(0)
+        for (term, coef) in dict {
+            result = result + (.constant(Double(coef)) * term)
+        }
+        return result
+        
+    }
+    
     public func parseSum() -> [Function<X>] {
         // x + 3 + (1 * 2)
         //  (  +  )
@@ -83,6 +103,8 @@ extension Function {
         }
     }
     
+    
+    
     /// Perform simplifications on this node only
     func optimized() -> Function {
         switch self {
@@ -100,10 +122,15 @@ extension Function {
             return 0
         case .multiplication(1, let a):
             return a
+        case let .addition(a, .multiplication(-1, b)):
+            return a - b
         case .multiplication(let a, 1):
             return a
-            
-            
+        case let .multiplication(a, b):
+            if a.simplified() == (1 / b).simplified() {
+                return .constant(1)
+            }
+            return a * b
         case let .addition(.constant(a), .constant(b)):
             return .constant(a + b)
         case let .subtraction(.constant(a), .constant(b)):
@@ -147,5 +174,29 @@ extension Function {
         default:
             return self
         }
+    }
+}
+
+public func == <X>(lhs: Function<X>, rhs: Function<X>) -> Bool {
+    
+    switch (lhs, rhs) {
+    case let (.constant(a), .constant(b)):
+        return a == b
+    case let (.variable(_), .variable(_)):
+        return true
+    case let (.addition(a), .addition(b)):
+        return a == b
+    case let (.subtraction(a), .subtraction(b)):
+        return a == b
+    case let (.multiplication(a), .multiplication(b)):
+        return a == b
+    case let (.division(a), .division(b)):
+        return a == b
+    case let (.power(a), .power(b)):
+        return a == b
+    case let (.function(a), .function(b)):
+        return a == b
+    default:
+        return false
     }
 }

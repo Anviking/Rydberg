@@ -65,8 +65,10 @@ public indirect enum Function<X: Variable>: CustomStringConvertible {
             switch (base.containsVariable, exponent.containsVariable) {
             case (true, false):
                 return exponent * base ** (exponent - 1)
+            case (false, false):
+                return .constant(0)
             default:
-                fatalError("unimplemented")
+                fatalError("derivative of \(self) is unimplemented")
             }
         
         case let .function(f, inner):
