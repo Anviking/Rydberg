@@ -2,7 +2,7 @@ import Foundation
 
 public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
     case constant(Double)
-    case variable(Variable)
+    case variable(String)
     
     indirect case addition(Expression, Expression)
     indirect case subtraction(Expression, Expression)
@@ -22,7 +22,7 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
         case .constant(let d):
             return d
         case .variable(let v):
-            return v.value
+            return v.
         case .addition(let a, let b):
             return a.value + b.value
         case .subtraction(let a, let b):
@@ -43,7 +43,7 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
         case .constant(let d):
             return String(format: "%g", arguments: [d])
         case .variable(let v):
-            return v.identifier
+            return v
         case .addition(let a, let b):
             return "(\(a.description) + \(b.description))"
         case .subtraction(let a, let b):
@@ -64,7 +64,7 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
         case .constant(_):
             return false
         case .variable(let v):
-            return v === variable
+            return v == variable.identifier
         case .addition(let a, let b):
             return a.contains(variable) || b.contains(variable)
         case .subtraction(let a, let b):

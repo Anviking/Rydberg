@@ -9,8 +9,7 @@ let f = arctan(1 / x.self) + arctan(x.self)
 f′
 f[2]
 
-let a = f′.simplified().expanded.simplified().eliminateEqualTerms().simplified()
-
+let a = f′.simplified().expanded.nominalForm.nominalForm.simplified().nominalForm
 
 print(a)
 let b = print(a.parseSum())

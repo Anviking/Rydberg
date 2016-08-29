@@ -113,8 +113,15 @@ extension Function: Equatable, Hashable {
         case .addition(0, let a):
             return a
             
+        case let .addition(.multiplication(a, b), c):
+            switch (a.containsVariable, b.containsVariable, c.containsVariable) {
+            case (true, false, true):
+                return a * (b + (c / a))
+            default:
+                return a * b + c
+            }
         case .subtraction(let a, 0):
-            return a.optimized()
+            return a
             
         case .multiplication(0, _):
             return 0
@@ -126,8 +133,13 @@ extension Function: Equatable, Hashable {
             return a - b
         case .multiplication(let a, 1):
             return a
+        case let .multiplication(a, .division(b, c)):
+            return ((a * b) / c)
         case let .multiplication(a, b):
             if a.simplified() == (1 / b).simplified() {
+                return .constant(1)
+            }
+            if a == b ** -1 || a ** -1 == b {
                 return .constant(1)
             }
             return a * b
@@ -142,20 +154,22 @@ extension Function: Equatable, Hashable {
         case .power(let base, 1):
             return base
             
+            /*
         case .power(let base, -1):
             return 1 / base
-            
+            */
+            /*
         case .power(let base, 0.5):
             return sqrt(base)
             
         case .power(let base, .division(1, 2)):
             return sqrt(base)
+            */
             
         case .division(let a, 1):
             return a
         case .division(0, _):
             return 0
-            
         case let .division(.constant(a), .constant(b)):
             if a.truncatingRemainder(dividingBy: b) == 0 {
                 return .constant(a / b)
@@ -170,9 +184,53 @@ extension Function: Equatable, Hashable {
             return (a * d).optimized() / (b * c).optimized()
         case let .division(.division(a, b), c):
             return (a).optimized() / (b * c).optimized()
-            
         default:
             return self
+        }
+    }
+    
+    public var nominalForm: Function {
+        var result = mapChildren { $0.nominalForm }
+        switch result {
+        case let .addition(.addition(a, b), c):
+            switch (a.containsVariable, b.containsVariable, c.containsVariable) {
+            case (true, false, true):
+                return (a + c) + b
+            case (false, true, true):
+                return (b + c) + a
+            default:
+                return a + b + c
+            }
+        case let .addition(a, b):
+            switch (a.containsVariable, b.containsVariable) {
+            case (false, true):
+                return (b + a)
+            default:
+                return (a + b)
+            }
+        case let .subtraction(a, b):
+            return (a + -b).nominalForm
+        case let .division(a, b):
+            return (a * b ** -1).nominalForm
+        case let .multiplication(.multiplication(a, b), c):
+            print("mul", a, b, c)
+            switch (a.containsVariable, b.containsVariable, c.containsVariable) {
+            case (true, false, true):
+                return (b * (a * c)).nominalForm
+            case (false, true, true):
+                return (a * (b * c)).nominalForm
+            default:
+                return a * b * c
+            }
+            return a * b * c
+        case let .multiplication(a, b):
+            if b.containsVariable && !a.containsVariable {
+                return b * a
+            } else {
+                return result
+            }
+        default:
+            return result
         }
     }
 }

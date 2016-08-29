@@ -5,6 +5,6 @@
         <page name='LatexDocument'/>
         <page name='Simplification'/>
         <page name='Rydberg'/>
-        <page name='Experiment'/>
+        <page name='Term Rewriting'/>
     </pages>
 </playground>

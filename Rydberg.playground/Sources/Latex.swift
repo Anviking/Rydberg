@@ -27,11 +27,11 @@ public struct LatexRenderer {
         case .constant(let c):
             return String(format: "%g", arguments: [c])
         case .variable(let v):
-            switch v.identifier {
+            switch v {
             case "π":
                 return "\\pi"
             default:
-                return v.identifier
+                return v
             }
         case let .addition(a, b):
             return render(a) + " + " + render(b)
