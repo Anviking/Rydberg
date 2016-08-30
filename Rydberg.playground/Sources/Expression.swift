@@ -22,7 +22,7 @@ public enum Expression: ExpressibleByIntegerLiteral, CustomStringConvertible {
         case .constant(let d):
             return d
         case .variable(let v):
-            return v.
+            return v
         case .addition(let a, let b):
             return a.value + b.value
         case .subtraction(let a, let b):

@@ -4,5 +4,6 @@
         <page name='Division'/>
         <page name='Untitled Page'/>
         <page name='Term Rewriting '/>
+        <page name='Generate Overloads'/>
     </pages>
 </playground>

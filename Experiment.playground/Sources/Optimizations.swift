@@ -124,9 +124,9 @@ extension Function: Equatable, Hashable {
             return a
             
         case .multiplication(0, _):
-            return 0
+            return .constant(0)
         case .multiplication(_, 0):
-            return 0
+            return .constant(0)
         case .multiplication(1, let a):
             return a
         case let .addition(a, .multiplication(-1, b)):
@@ -169,7 +169,7 @@ extension Function: Equatable, Hashable {
         case .division(let a, 1):
             return a
         case .division(0, _):
-            return 0
+            return .constant(0)
         case let .division(.constant(a), .constant(b)):
             if a.truncatingRemainder(dividingBy: b) == 0 {
                 return .constant(a / b)
@@ -190,7 +190,7 @@ extension Function: Equatable, Hashable {
     }
     
     public var nominalForm: Function {
-        var result = mapChildren { $0.nominalForm }
+        let result = mapChildren { $0.nominalForm }
         switch result {
         case let .addition(.addition(a, b), c):
             switch (a.containsVariable, b.containsVariable, c.containsVariable) {
@@ -240,7 +240,7 @@ public func == <X>(lhs: Function<X>, rhs: Function<X>) -> Bool {
     switch (lhs, rhs) {
     case let (.constant(a), .constant(b)):
         return a == b
-    case let (.variable(_), .variable(_)):
+    case (.variable(_), .variable(_)):
         return true
     case let (.addition(a), .addition(b)):
         return a == b

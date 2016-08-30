@@ -120,6 +120,7 @@ public indirect enum Function<X: Variable>: CustomStringConvertible {
     
 }
 
+/*
 extension Function: ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral {
     public init(floatLiteral value: Double) {
         self = .constant(value)
@@ -129,60 +130,13 @@ extension Function: ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral {
         self = .constant(Double(value))
     }
 }
-
+*/
 
 postfix operator ′
 public postfix func ′ <X: Variable>(f: Function<X>) -> Function<X> {
     return f.derivative
 }
 
-public func + <A: Variable>(lhs: A.Type, rhs: Double) -> Function<A> {
-    return Function<A>.addition(.variable(lhs), .constant(rhs))
-}
-
-public func + <A: Variable>(lhs: A.Type, rhs: Int) -> Function<A> {
-    return Function<A>.addition(.variable(lhs), .constant(Double(rhs)))
-}
-
-public func + <A: Variable>(lhs: Function<A>, rhs: Function<A>) -> Function<A> {
-    return .addition(lhs, rhs)
-}
-
-public func + <A: Variable>(lhs: Function<A>, rhs: A.Type) -> Function<A> {
-    return .addition(lhs, .variable(rhs))
-}
-
-public func - <A: Variable>(lhs: Function<A>, rhs: Function<A>) -> Function<A> {
-    return .subtraction(lhs, rhs)
-}
-
-public func - <A: Variable>(lhs: Function<A>, rhs: A.Type) -> Function<A> {
-    return .subtraction(lhs, .variable(rhs))
-}
-
-prefix func - <A: Variable>(a: Function<A>) -> Function<A> {
-    return .subtraction(.constant(0), a)
-}
-
-prefix func - <A: Variable>(a: A.Type) -> Function<A> {
-    return .subtraction(.constant(0), .variable(a))
-}
-
-public func * <A: Variable>(lhs: Function<A>, rhs: Function<A>) -> Function<A> {
-    return .multiplication(lhs, rhs)
-}
-
-public func * <A: Variable>(lhs: Function<A>, rhs: A.Type) -> Function<A> {
-    return .multiplication(lhs, .variable(rhs))
-}
-
-public func / <A: Variable>(lhs: Function<A>, rhs: Function<A>) -> Function<A> {
-    return .division(lhs, rhs)
-}
-
-public func / <A: Variable>(lhs: Function<A>, rhs: A.Type) -> Function<A> {
-    return .division(lhs, .variable(rhs))
-}
 
 precedencegroup PowerPrecedence {
     higherThan: MultiplicationPrecedence, AdditionPrecedence
@@ -190,13 +144,10 @@ precedencegroup PowerPrecedence {
 
 infix operator ** : PowerPrecedence
 
-public func ** <A: Variable>(lhs: Function<A>, rhs: Function<A>) -> Function<A> {
-    return .power(base: lhs, exponent: rhs)
+public prefix func -<A: Variable>(rhs: Function<A>) -> Function<A> {
+    return 0 - rhs
 }
 
-public func ** <A: Variable>(lhs: Function<A>, rhs: A.Type) -> Function<A> {
-    return .power(base: lhs, exponent: .variable(rhs))
-}
 
 // MARK: Pattern matching
 
